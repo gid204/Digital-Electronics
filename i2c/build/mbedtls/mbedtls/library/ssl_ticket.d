@@ -48,6 +48,7 @@ mbedtls/library/ssl_ticket.o: \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/x509_crl.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/dhm.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecdh.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/string.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/string.h
 
@@ -146,6 +147,8 @@ mbedtls/library/ssl_ticket.o: \
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/dhm.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecdh.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/newlib/include/string.h:
 

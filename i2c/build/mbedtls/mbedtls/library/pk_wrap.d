@@ -36,6 +36,7 @@ mbedtls/library/pk_wrap.o: \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/string.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecp.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecdsa.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_time.h \
  /Users/gideon/esp/esp-idf/components/newlib/platform_include/time.h \
@@ -116,6 +117,8 @@ mbedtls/library/pk_wrap.o: \
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecp.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecdsa.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform.h:
 

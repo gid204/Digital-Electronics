@@ -31,6 +31,7 @@ mbedtls/library/pkcs12.o: \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/stdio.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/asn1.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/string.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/string.h
 
@@ -95,6 +96,8 @@ mbedtls/library/pkcs12.o: \
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/asn1.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/newlib/include/string.h:
 

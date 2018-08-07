@@ -32,6 +32,7 @@ mbedtls/library/pk.o: \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecdsa.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/pk_internal.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/pk.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/rsa.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecp.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecdsa.h
@@ -99,6 +100,8 @@ mbedtls/library/pk.o: \
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/pk_internal.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/pk.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/rsa.h:
 

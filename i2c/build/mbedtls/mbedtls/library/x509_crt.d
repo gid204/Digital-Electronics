@@ -36,6 +36,7 @@ mbedtls/library/x509_crt.o: \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/x509_crl.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/oid.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/string.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/string.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/pem.h \
@@ -122,6 +123,8 @@ mbedtls/library/x509_crt.o: \
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/oid.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/newlib/include/string.h:
 

@@ -26,6 +26,7 @@ mbedtls/library/aes.o: \
  /Users/gideon/esp/esp-idf/components/esp32/include/hwcrypto/aes.h \
  /Users/gideon/esp/esp-idf/components/esp32/include/esp_types.h \
  /Users/gideon/esp/esp-idf/components/esp32/include/rom/aes.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/padlock.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/aes.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/aesni.h \
@@ -94,6 +95,8 @@ mbedtls/library/aes.o: \
 /Users/gideon/esp/esp-idf/components/esp32/include/esp_types.h:
 
 /Users/gideon/esp/esp-idf/components/esp32/include/rom/aes.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/padlock.h:
 

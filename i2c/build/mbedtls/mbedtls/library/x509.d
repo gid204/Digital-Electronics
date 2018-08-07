@@ -47,9 +47,7 @@ mbedtls/library/x509.o: \
  /Users/gideon/esp/esp-idf/components/newlib/include/stdlib.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/machine/stdlib.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/alloca.h \
- /Users/gideon/esp/esp-idf/components/newlib/include/sys/stat.h \
- /Users/gideon/esp/esp-idf/components/newlib/include/dirent.h \
- /Users/gideon/esp/esp-idf/components/vfs/include/sys/dirent.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_time.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/x509_crt.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/x509_crl.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/certs.h
@@ -148,11 +146,7 @@ mbedtls/library/x509.o: \
 
 /Users/gideon/esp/esp-idf/components/newlib/include/alloca.h:
 
-/Users/gideon/esp/esp-idf/components/newlib/include/sys/stat.h:
-
-/Users/gideon/esp/esp-idf/components/newlib/include/dirent.h:
-
-/Users/gideon/esp/esp-idf/components/vfs/include/sys/dirent.h:
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_time.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/x509_crt.h:
 

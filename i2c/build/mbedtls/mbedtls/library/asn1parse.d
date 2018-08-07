@@ -26,6 +26,7 @@ mbedtls/library/asn1parse.o: \
  /Users/gideon/esp/esp-idf/components/newlib/include/machine/types.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/sched.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/stdio.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/string.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/string.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/port/include/mbedtls/bignum.h \
@@ -90,6 +91,8 @@ mbedtls/library/asn1parse.o: \
 /Users/gideon/esp/esp-idf/components/newlib/include/sys/sched.h:
 
 /Users/gideon/esp/esp-idf/components/newlib/include/sys/stdio.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/newlib/include/string.h:
 

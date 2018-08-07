@@ -36,6 +36,7 @@ mbedtls/library/x509write_csr.o: \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/oid.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/asn1write.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/string.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/string.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/stdlib.h \
@@ -114,6 +115,8 @@ mbedtls/library/x509write_csr.o: \
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/asn1write.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/newlib/include/string.h:
 

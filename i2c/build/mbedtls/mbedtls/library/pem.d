@@ -20,6 +20,7 @@ mbedtls/library/pem.o: \
  /Users/gideon/esp/esp-idf/components/esp32/include/rom/aes.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/md5.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/string.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/_ansi.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/config.h \
@@ -84,6 +85,8 @@ mbedtls/library/pem.o: \
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/md5.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/newlib/include/string.h:
 

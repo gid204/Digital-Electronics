@@ -7,6 +7,7 @@ mbedtls/library/hmac_drbg.o: \
  /Users/gideon/esp/esp-idf/components/newlib/include/newlib.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/hmac_drbg.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/md.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/string.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/_ansi.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/config.h \
@@ -48,6 +49,8 @@ mbedtls/library/hmac_drbg.o: \
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/hmac_drbg.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/md.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/newlib/include/string.h:
 

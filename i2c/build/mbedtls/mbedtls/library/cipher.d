@@ -8,6 +8,7 @@ mbedtls/library/cipher.o: \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher_internal.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/stdlib.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/machine/ieeefp.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/_ansi.h \
@@ -55,6 +56,8 @@ mbedtls/library/cipher.o: \
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher_internal.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/cipher.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/newlib/include/stdlib.h:
 

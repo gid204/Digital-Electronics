@@ -8,6 +8,7 @@ mbedtls/library/md.o: \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/md.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/md_internal.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/md.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_time.h \
  /Users/gideon/esp/esp-idf/components/newlib/platform_include/time.h \
@@ -51,6 +52,8 @@ mbedtls/library/md.o: \
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/md_internal.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/md.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform.h:
 

@@ -28,6 +28,7 @@ mbedtls/library/bignum.o: \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/stdio.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/bn_mul.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/bignum.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/string.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/string.h \
  /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform.h \
@@ -94,6 +95,8 @@ mbedtls/library/bignum.o: \
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/bn_mul.h:
 
 /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/bignum.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/newlib/include/string.h:
 

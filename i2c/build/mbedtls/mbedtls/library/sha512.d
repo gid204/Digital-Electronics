@@ -10,6 +10,7 @@ mbedtls/library/sha512.o: \
  /Users/gideon/esp/esp-idf/components/newlib/include/machine/_default_types.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/features.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/_intsup.h \
+ /Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/string.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/_ansi.h \
  /Users/gideon/esp/esp-idf/components/newlib/include/sys/config.h \
@@ -55,6 +56,8 @@ mbedtls/library/sha512.o: \
 /Users/gideon/esp/esp-idf/components/newlib/include/sys/features.h:
 
 /Users/gideon/esp/esp-idf/components/newlib/include/sys/_intsup.h:
+
+/Users/gideon/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/platform_util.h:
 
 /Users/gideon/esp/esp-idf/components/newlib/include/string.h:
 
