@@ -1,0 +1,15 @@
+eclipse.preferences.version=1
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/BATCH_BUILD/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/BATCH_BUILD/operation=append
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/BATCH_BUILD/value=1
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/IDF_PATH/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/IDF_PATH/operation=replace
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/IDF_PATH/value=/Users/gideon/esp/esp-idf/
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/PATH/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/PATH/operation=replace
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/PATH/value=/Users/gideon/esp/xtensa-esp32-elf/bin\:/bin\:/usr/bin\:/usr/sbin\:/sbin
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/PYTHONPATH/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/PYTHONPATH/operation=append
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/PYTHONPATH/value=/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/append=true
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.2095528455.1681465090.373645175.224554298/appendContributed=true
