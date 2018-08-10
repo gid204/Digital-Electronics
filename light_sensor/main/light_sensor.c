@@ -1,5 +1,5 @@
 /* Digital Electronics Spring 2018 Project
- * Gideon kanikevich - 1655988
+ * Gideon kanikevich - 11655988
  *
  * Development board used: ESP32-Devkit-C V4.
  * Light sensor used: BH1750 (model GY-30)
@@ -17,6 +17,7 @@
 #include "nvs_flash.h"
 #include "nvs.h"
 #include "driver/gpio.h"
+#include "driver/i2c.h"
 
 
 void app_main()
