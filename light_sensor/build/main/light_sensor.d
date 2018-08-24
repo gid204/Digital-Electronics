@@ -81,7 +81,12 @@ light_sensor.o: \
  /Users/gideon/esp/esp-idf/components/freertos/include/freertos/list.h \
  /Users/gideon/esp/esp-idf/components/nvs_flash/include/nvs_flash.h \
  /Users/gideon/esp/esp-idf/components/nvs_flash/include/nvs.h \
- /Users/gideon/esp/esp-idf/components/nvs_flash/include/nvs.h
+ /Users/gideon/esp/esp-idf/components/nvs_flash/include/nvs.h \
+ /Users/gideon/esp/esp-idf/components/driver/include/driver/i2c.h \
+ /Users/gideon/esp/esp-idf/components/freertos/include/freertos/semphr.h \
+ /Users/gideon/esp/esp-idf/components/freertos/include/freertos/queue.h \
+ /Users/gideon/esp/esp-idf/components/freertos/include/freertos/queue.h \
+ /Users/gideon/esp/esp-idf/components/freertos/include/freertos/ringbuf.h
 
 /Users/gideon/esp/esp-idf/components/newlib/include/stdio.h:
 
@@ -246,4 +251,14 @@ light_sensor.o: \
 /Users/gideon/esp/esp-idf/components/nvs_flash/include/nvs.h:
 
 /Users/gideon/esp/esp-idf/components/nvs_flash/include/nvs.h:
+
+/Users/gideon/esp/esp-idf/components/driver/include/driver/i2c.h:
+
+/Users/gideon/esp/esp-idf/components/freertos/include/freertos/semphr.h:
+
+/Users/gideon/esp/esp-idf/components/freertos/include/freertos/queue.h:
+
+/Users/gideon/esp/esp-idf/components/freertos/include/freertos/queue.h:
+
+/Users/gideon/esp/esp-idf/components/freertos/include/freertos/ringbuf.h:
 /Users/gideon/Documents/GitHub/Digital-Electronics/light_sensor/main/./light_sensor.c:

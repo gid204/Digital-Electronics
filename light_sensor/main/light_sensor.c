@@ -19,8 +19,10 @@
 #include "driver/gpio.h"
 #include "driver/i2c.h"
 
-#define I2C_SLAVE_SCL_IO          		   26               /*!<gpio number for i2c slave clock  */
-#define I2C_SLAVE_SDA_IO           		   25               /*!<gpio number for i2c slave data */
+#define DATA_LENGTH                        512              /*!<Data buffer length for test buffer*/
+#define RW_TEST_LENGTH                     129              /*!<Data length for r/w test, any value from 0-DATA_LENGTH*/
+#define DELAY_TIME_BETWEEN_ITEMS_MS        1234             /*!< delay time between different test items */
+
 
 #define I2C_MASTER_SCL_IO 				   19               /*!< GPIO for I2C master clock */
 #define I2C_MASTER_SDA_IO                  18               /*!< GPIO for I2C master data */
@@ -39,17 +41,19 @@
 #define ACK_VAL                            0x0              /*!< I2C ack value */
 #define NACK_VAL                           0x1              /*!< I2C nack value */
 
+SemaphoreHandle_t print_mux = NULL;
+
 /**
  * @brief i2c master initialization
  */
 static void i2c_master_init()
 {
 	int i2c_master_port = I2C_EXAMPLE_MASTER_NUM;
-	i2c.config_t conf;
+	i2c_config_t conf;
     conf.mode = I2C_MODE_MASTER;
     conf.sda_io_num = I2C_SLAVE_SDA_IO;
     conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
-    conf.scl_io_num = I2C_EXAMPLE_MASTER_SCL_IO;
+    conf.scl_io_num = I2C_MASTER_SCL_IO;
     conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
     conf.master.clk_speed = I2C_EXAMPLE_MASTER_FREQ_HZ;
     i2c_param_config(i2c_master_port, &conf);
@@ -57,15 +61,81 @@ static void i2c_master_init()
                        I2C_MASTER_RX_BUF, I2C_MASTER_TX_BUF, 0);
 }
 
+/**
+ * @brief test code to write esp-i2c-slave
+ *
+ * 1. set mode
+ * _________________________________________________________________
+ * | start | slave_addr + wr_bit + ack | write 1 byte + ack  | stop |
+ * --------|---------------------------|---------------------|------|
+ * 2. wait more than 24 ms
+ * 3. read data
+ * ______________________________________________________________________________________
+ * | start | slave_addr + rd_bit + ack | read 1 byte + ack  | read 1 byte + nack | stop |
+ * --------|---------------------------|--------------------|--------------------|------|
+ */
+static esp_err_t i2c_master_sensor_test(i2c_port_t i2c_num, uint8_t* data_h, uint8_t* data_l)
+{
+    int ret;
+    i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+    i2c_master_start(cmd);
+    i2c_master_write_byte(cmd, BH1750_SENSOR_ADDR << 1 | WRITE_BIT, ACK_CHECK_EN);
+    i2c_master_write_byte(cmd, BH1750_CMD_START, ACK_CHECK_EN);
+    i2c_master_stop(cmd);
+    ret = i2c_master_cmd_begin(i2c_num, cmd, 1000 / portTICK_RATE_MS);
+    i2c_cmd_link_delete(cmd);
+    if (ret != ESP_OK) {
+        return ret;
+    }
+    vTaskDelay(30 / portTICK_RATE_MS);
+    cmd = i2c_cmd_link_create();
+    i2c_master_start(cmd);
+    i2c_master_write_byte(cmd, BH1750_SENSOR_ADDR << 1 | READ_BIT, ACK_CHECK_EN);
+    i2c_master_read_byte(cmd, data_h, ACK_VAL);
+    i2c_master_read_byte(cmd, data_l, NACK_VAL);
+    i2c_master_stop(cmd);
+    ret = i2c_master_cmd_begin(i2c_num, cmd, 1000 / portTICK_RATE_MS);
+    i2c_cmd_link_delete(cmd);
+    return ret;
+}
+
+/**
+ * @brief i2c task to read data from sensor
+ */
+static void i2c_task(void* arg)
+{
+    int i = 0;
+    int ret;
+    uint32_t task_idx = (uint32_t) arg;
+    uint8_t* data = (uint8_t*) malloc(DATA_LENGTH);
+    uint8_t* data_wr = (uint8_t*) malloc(DATA_LENGTH);
+    uint8_t* data_rd = (uint8_t*) malloc(DATA_LENGTH);
+    uint8_t sensor_data_h, sensor_data_l;
+    int cnt = 0;
+    while (1) {
+        printf("test cnt: %d\n", cnt++);
+        ret = i2c_master_sensor_test( I2C_EXAMPLE_MASTER_NUM, &sensor_data_h, &sensor_data_l);
+        xSemaphoreTake(print_mux, portMAX_DELAY);
+        if(ret == ESP_ERR_TIMEOUT) {
+            printf("I2C timeout\n");
+        } else if(ret == ESP_OK) {
+            printf("*******************\n");
+            printf("TASK[%d]  MASTER READ SENSOR( BH1750 )\n", task_idx);
+            printf("*******************\n");
+            printf("data_h: %02x\n", sensor_data_h);
+            printf("data_l: %02x\n", sensor_data_l);
+            printf("sensor val: %f\n", (sensor_data_h << 8 | sensor_data_l) / 1.2);
+        } else {
+            printf("%s: No ack, sensor not connected...skip...\n", esp_err_to_name(ret));
+        }
+        xSemaphoreGive(print_mux);
+        vTaskDelay(( DELAY_TIME_BETWEEN_ITEMS_MS * ( task_idx + 1 ) ) / portTICK_RATE_MS);
+    }
+}
+
 void app_main()
 {
-	while(1)
-	{
-	//countdown
-	for (int i = 5; i >= 0; i--) {
-	        printf("\nCountdown: %d seconds...\n", i);
-	        vTaskDelay(1000 / portTICK_PERIOD_MS);
-	    }
-	 printf("\nHello_World!\n");
-	}
+    print_mux = xSemaphoreCreateMutex();
+    i2c_master_init();
+    xTaskCreate(i2c_task, "i2c_task_0", 1024 * 2, (void* ) 0, 10, NULL);
 }
