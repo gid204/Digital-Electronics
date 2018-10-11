@@ -21,7 +21,7 @@
 
 #define DATA_LENGTH                        512              /*!<Data buffer length for test buffer*/
 #define RW_TEST_LENGTH                     129              /*!<Data length for r/w test, any value from 0-DATA_LENGTH*/
-#define DELAY_TIME_BETWEEN_ITEMS_MS        1234             /*!< delay time between different test items */
+#define DELAY_TIME_BETWEEN_ITEMS_MS        10000             /*!< delay time between different test items */
 
 
 #define I2C_MASTER_SCL_IO 				   19               /*!< GPIO for I2C master clock */
@@ -41,7 +41,11 @@
 #define ACK_VAL                            0x0              /*!< I2C ack value */
 #define NACK_VAL                           0x1              /*!< I2C nack value */
 
+int32_t sensorValue = 0;
+
 SemaphoreHandle_t print_mux = NULL;
+
+
 
 /**
  * @brief i2c master initialization
@@ -51,7 +55,7 @@ static void i2c_master_init()
 	int i2c_master_port = I2C_EXAMPLE_MASTER_NUM;
 	i2c_config_t conf;
     conf.mode = I2C_MODE_MASTER;
-    conf.sda_io_num = I2C_SLAVE_SDA_IO;
+    conf.sda_io_num = I2C_MASTER_SDA_IO;
     conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
     conf.scl_io_num = I2C_MASTER_SCL_IO;
     conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
@@ -124,7 +128,9 @@ static void i2c_task(void* arg)
             printf("*******************\n");
             printf("data_h: %02x\n", sensor_data_h);
             printf("data_l: %02x\n", sensor_data_l);
-            printf("sensor val: %f\n", (sensor_data_h << 8 | sensor_data_l) / 1.2);
+            int32_t sensor_val = ((sensor_data_h << 8 | sensor_data_l) / 1.2);
+            sensorValue = sensor_val;
+            printf("sensor val: %d\n", sensor_val);
         } else {
             printf("%s: No ack, sensor not connected...skip...\n", esp_err_to_name(ret));
         }
@@ -138,4 +144,61 @@ void app_main()
     print_mux = xSemaphoreCreateMutex();
     i2c_master_init();
     xTaskCreate(i2c_task, "i2c_task_0", 1024 * 2, (void* ) 0, 10, NULL);
+
+    // Initialize NVS
+        esp_err_t err = nvs_flash_init();
+        if (err == ESP_ERR_NVS_NO_FREE_PAGES) {
+            // NVS partition was truncated and needs to be erased
+            // Retry nvs_flash_init
+            ESP_ERROR_CHECK(nvs_flash_erase());
+            err = nvs_flash_init();
+        }
+        ESP_ERROR_CHECK( err );
+
+        // Open
+            printf("\n");
+            printf("Opening Non-Volatile Storage (NVS) handle... ");
+            nvs_handle my_handle;
+            err = nvs_open("storage", NVS_READWRITE, &my_handle);
+            if (err != ESP_OK) {
+                printf("Error (%s) opening NVS handle!\n", esp_err_to_name(err));
+            } else {
+                printf("Done\n");
+
+		// Read
+			printf("Reading light intensity from NVS ... ");
+			int32_t lightSensor = sensorValue; // value will default to 0, if not set yet in NVS
+			err = nvs_get_i32(my_handle, "lightSensor", &lightSensor);
+			switch (err) {
+				case ESP_OK:
+					printf("Done\n");
+					printf("Light Intensity = %d\n", lightSensor);
+					break;
+				case ESP_ERR_NVS_NOT_FOUND:
+					printf("The value is not initialized yet!\n");
+					break;
+				default :
+					printf("Error (%s) reading!\n", esp_err_to_name(err));
+			}
+
+	        // Write
+	        printf("Updating light intensity reading in NVS ... ");
+	        err = nvs_set_i32(my_handle, "lightSensor", lightSensor);
+	        printf((err != ESP_OK) ? "Failed!\n" : "Done\n");
+	        // Commit written value.
+	        // After setting any values, nvs_commit() must be called to ensure changes are written
+	        // to flash storage. Implementations may write to storage at other times,
+	        // but this is not guaranteed.
+	        printf("Committing updates in NVS ... ");
+	        err = nvs_commit(my_handle);
+	        printf((err != ESP_OK) ? "Failed!\n" : "Done\n");
+
+	        // Close
+	        nvs_close(my_handle);
+	    }
+
+	    printf("\n");
+	    fflush(stdout);
+	    //esp_restart();
+
 }
