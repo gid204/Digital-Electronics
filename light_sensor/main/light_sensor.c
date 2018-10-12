@@ -41,7 +41,9 @@
 #define ACK_VAL                            0x0              /*!< I2C ack value */
 #define NACK_VAL                           0x1              /*!< I2C nack value */
 
-int32_t sensorValue = 0;
+#define STORAGE_NAMESPACE "storage"
+
+int32_t SensorValue = 0;
 
 SemaphoreHandle_t print_mux = NULL;
 
@@ -103,17 +105,68 @@ static esp_err_t i2c_master_sensor_test(i2c_port_t i2c_num, uint8_t* data_h, uin
     return ret;
 }
 
+esp_err_t save_sensor_value()
+{
+	nvs_handle my_handle;
+    esp_err_t err = nvs_flash_init();
+    if (err == ESP_ERR_NVS_NO_FREE_PAGES) {
+        // NVS partition was truncated and needs to be erased
+        // Retry nvs_flash_init
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        err = nvs_flash_init();
+    }
+    ESP_ERROR_CHECK( err );
+
+    // Open
+        err = nvs_open("storage", NVS_READWRITE, &my_handle);
+        if (err != ESP_OK) return err;
+
+	// Read
+		printf("Reading light intensity from NVS ... ");
+		int32_t lightSensor = 0; // value will default to 0, if not set yet in NVS
+		err = nvs_get_i32(my_handle, "lightSensor", &lightSensor);
+		switch (err) {
+			case ESP_OK:
+				printf("Done\n");
+				printf("Light Intensity = %d\n", lightSensor);
+				break;
+			case ESP_ERR_NVS_NOT_FOUND:
+				printf("The value is not initialized yet!\n");
+				break;
+			default :
+				printf("Error (%s) reading!\n", esp_err_to_name(err));
+		}
+
+	// Write
+	printf("Updating light intensity reading in NVS with = %d\n", SensorValue);
+	err = nvs_set_i32(my_handle, "lightSensor", SensorValue);
+	printf((err != ESP_OK) ? "Failed!\n" : "Done\n");
+	// Commit written value.
+	// After setting any values, nvs_commit() must be called to ensure changes are written
+	// to flash storage. Implementations may write to storage at other times,
+	// but this is not guaranteed.
+	printf("Committing updates in NVS ... ");
+	err = nvs_commit(my_handle);
+	printf((err != ESP_OK) ? "Failed!\n" : "Done\n");
+
+	// Close
+	nvs_close(my_handle);
+
+	printf("\n");
+	fflush(stdout);
+	//esp_restart();
+	return ESP_OK;
+}
+
+
 /**
  * @brief i2c task to read data from sensor
  */
 static void i2c_task(void* arg)
 {
-    int i = 0;
+	esp_err_t err;
     int ret;
     uint32_t task_idx = (uint32_t) arg;
-    uint8_t* data = (uint8_t*) malloc(DATA_LENGTH);
-    uint8_t* data_wr = (uint8_t*) malloc(DATA_LENGTH);
-    uint8_t* data_rd = (uint8_t*) malloc(DATA_LENGTH);
     uint8_t sensor_data_h, sensor_data_l;
     int cnt = 0;
     while (1) {
@@ -129,76 +182,27 @@ static void i2c_task(void* arg)
             printf("data_h: %02x\n", sensor_data_h);
             printf("data_l: %02x\n", sensor_data_l);
             int32_t sensor_val = ((sensor_data_h << 8 | sensor_data_l) / 1.2);
-            sensorValue = sensor_val;
+            SensorValue = sensor_val;
             printf("sensor val: %d\n", sensor_val);
         } else {
             printf("%s: No ack, sensor not connected...skip...\n", esp_err_to_name(ret));
         }
+
+        err = save_sensor_value();
+       	if (err != ESP_OK) printf("Error (%s) saving restart counter to NVS!\n", esp_err_to_name(err));
+
         xSemaphoreGive(print_mux);
         vTaskDelay(( DELAY_TIME_BETWEEN_ITEMS_MS * ( task_idx + 1 ) ) / portTICK_RATE_MS);
     }
 }
 
+
+
 void app_main()
 {
+
     print_mux = xSemaphoreCreateMutex();
     i2c_master_init();
     xTaskCreate(i2c_task, "i2c_task_0", 1024 * 2, (void* ) 0, 10, NULL);
-
-    // Initialize NVS
-        esp_err_t err = nvs_flash_init();
-        if (err == ESP_ERR_NVS_NO_FREE_PAGES) {
-            // NVS partition was truncated and needs to be erased
-            // Retry nvs_flash_init
-            ESP_ERROR_CHECK(nvs_flash_erase());
-            err = nvs_flash_init();
-        }
-        ESP_ERROR_CHECK( err );
-
-        // Open
-            printf("\n");
-            printf("Opening Non-Volatile Storage (NVS) handle... ");
-            nvs_handle my_handle;
-            err = nvs_open("storage", NVS_READWRITE, &my_handle);
-            if (err != ESP_OK) {
-                printf("Error (%s) opening NVS handle!\n", esp_err_to_name(err));
-            } else {
-                printf("Done\n");
-
-		// Read
-			printf("Reading light intensity from NVS ... ");
-			int32_t lightSensor = sensorValue; // value will default to 0, if not set yet in NVS
-			err = nvs_get_i32(my_handle, "lightSensor", &lightSensor);
-			switch (err) {
-				case ESP_OK:
-					printf("Done\n");
-					printf("Light Intensity = %d\n", lightSensor);
-					break;
-				case ESP_ERR_NVS_NOT_FOUND:
-					printf("The value is not initialized yet!\n");
-					break;
-				default :
-					printf("Error (%s) reading!\n", esp_err_to_name(err));
-			}
-
-	        // Write
-	        printf("Updating light intensity reading in NVS ... ");
-	        err = nvs_set_i32(my_handle, "lightSensor", lightSensor);
-	        printf((err != ESP_OK) ? "Failed!\n" : "Done\n");
-	        // Commit written value.
-	        // After setting any values, nvs_commit() must be called to ensure changes are written
-	        // to flash storage. Implementations may write to storage at other times,
-	        // but this is not guaranteed.
-	        printf("Committing updates in NVS ... ");
-	        err = nvs_commit(my_handle);
-	        printf((err != ESP_OK) ? "Failed!\n" : "Done\n");
-
-	        // Close
-	        nvs_close(my_handle);
-	    }
-
-	    printf("\n");
-	    fflush(stdout);
-	    //esp_restart();
 
 }
