@@ -21,7 +21,7 @@
 
 #define DATA_LENGTH                        512              /*!<Data buffer length for test buffer*/
 #define RW_TEST_LENGTH                     129              /*!<Data length for r/w test, any value from 0-DATA_LENGTH*/
-#define DELAY_TIME_BETWEEN_ITEMS_MS        10000             /*!< delay time between different test items */
+#define DELAY_TIME_BETWEEN_ITEMS_MS        1000             /*!< delay time between different test items */
 
 
 #define I2C_MASTER_SCL_IO 				   19               /*!< GPIO for I2C master clock */
@@ -43,7 +43,7 @@
 
 #define STORAGE_NAMESPACE "storage"
 
-int32_t SensorValue = 0;
+uint32_t SensorValue = 0;
 
 SemaphoreHandle_t print_mux = NULL;
 
@@ -107,6 +107,7 @@ static esp_err_t i2c_master_sensor_test(i2c_port_t i2c_num, uint8_t* data_h, uin
 
 esp_err_t save_sensor_value()
 {
+	uint32_t sense_val = 0;
 	nvs_handle my_handle;
     esp_err_t err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES) {
@@ -121,33 +122,65 @@ esp_err_t save_sensor_value()
         err = nvs_open("storage", NVS_READWRITE, &my_handle);
         if (err != ESP_OK) return err;
 
-	// Read
-		printf("Reading light intensity from NVS ... ");
-		int32_t lightSensor = 0; // value will default to 0, if not set yet in NVS
-		err = nvs_get_i32(my_handle, "lightSensor", &lightSensor);
-		switch (err) {
-			case ESP_OK:
-				printf("Done\n");
-				printf("Light Intensity = %d\n", lightSensor);
-				break;
-			case ESP_ERR_NVS_NOT_FOUND:
-				printf("The value is not initialized yet!\n");
-				break;
-			default :
-				printf("Error (%s) reading!\n", esp_err_to_name(err));
-		}
+	// Read the size of memory space required for blob
+	size_t required_size = 0;  // value will default to 0, if not set yet in NVS
+	err = nvs_get_blob(my_handle, "sample", NULL, &required_size);
+	if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND) return err;
 
-	// Write
-	printf("Updating light intensity reading in NVS with = %d\n", SensorValue);
-	err = nvs_set_i32(my_handle, "lightSensor", SensorValue);
-	printf((err != ESP_OK) ? "Failed!\n" : "Done\n");
-	// Commit written value.
-	// After setting any values, nvs_commit() must be called to ensure changes are written
-	// to flash storage. Implementations may write to storage at other times,
-	// but this is not guaranteed.
-	printf("Committing updates in NVS ... ");
-	err = nvs_commit(my_handle);
-	printf((err != ESP_OK) ? "Failed!\n" : "Done\n");
+
+	// Write value including previously saved blob if available
+	required_size += sizeof(uint32_t);
+	err = nvs_set_blob(my_handle, "sample", &SensorValue, required_size);
+	if (err != ESP_OK) return err;
+
+	err = nvs_get_blob(my_handle, "sample", sense_val, &required_size);
+	if (err != ESP_OK) return err;
+	printf("%x", sense_val);
+
+
+
+
+//	if (required_size > 0)
+//	{
+//		err = nvs_get_blob(my_handle, "sample", sense_val, &required_size);
+////		sense_val = err;
+//		if (err != ESP_OK) return err;
+//		for (int i = 0; i < required_size / sizeof(uint32_t); i++)
+//		{
+//            printf("%d: %d\n", i + 1, sense_val[i]);
+//        }
+//
+//	}
+
+//    // Read run time blob
+//    size_t required_size = 0;  // value will default to 0, if not set yet in NVS
+//    // obtain required memory space to store blob being read from NVS
+//    err = nvs_get_blob(my_handle, "run_time", NULL, &required_size);
+//    if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND) return err;
+//    printf("Run time:\n");
+//    if (required_size == 0) {
+//        printf("Nothing saved yet!\n");
+//    } else {
+//        uint32_t* run_time = malloc(required_size);
+//        err = nvs_get_blob(my_handle, "run_time", run_time, &required_size);
+//        if (err != ESP_OK) return err;
+//        for (int i = 0; i < required_size / sizeof(uint32_t); i++) {
+//            printf("%d: %d\n", i + 1, run_time[i]);
+//        }
+//        free(run_time);
+//    }
+
+//	// Write
+//	printf("Updating light intensity reading in NVS with = %d\n", SensorValue);
+//	err = nvs_set_i32(my_handle, "lightSensor", SensorValue);
+//	printf((err != ESP_OK) ? "Failed!\n" : "Done\n");
+//	// Commit written value.
+//	// After setting any values, nvs_commit() must be called to ensure changes are written
+//	// to flash storage. Implementations may write to storage at other times,
+//	// but this is not guaranteed.
+//	printf("Committing updates in NVS ... ");
+//	err = nvs_commit(my_handle);
+//	printf((err != ESP_OK) ? "Failed!\n" : "Done\n");
 
 	// Close
 	nvs_close(my_handle);
