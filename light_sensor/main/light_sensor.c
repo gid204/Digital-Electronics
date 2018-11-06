@@ -42,11 +42,11 @@
 #define NACK_VAL                           0x1              /*!< I2C nack value */
 
 #define STORAGE_NAMESPACE "storage"
+#define BLOB_SIZE 1024
 
-uint32_t SensorValue = 0;
+int32_t SensorValue = 0;
 
 SemaphoreHandle_t print_mux = NULL;
-
 
 
 /**
@@ -107,7 +107,6 @@ static esp_err_t i2c_master_sensor_test(i2c_port_t i2c_num, uint8_t* data_h, uin
 
 esp_err_t save_sensor_value()
 {
-	uint32_t sense_val = 0;
 	nvs_handle my_handle;
     esp_err_t err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES) {
@@ -122,66 +121,43 @@ esp_err_t save_sensor_value()
         err = nvs_open("storage", NVS_READWRITE, &my_handle);
         if (err != ESP_OK) return err;
 
+
 	// Read the size of memory space required for blob
 	size_t required_size = 0;  // value will default to 0, if not set yet in NVS
-	err = nvs_get_blob(my_handle, "sample", NULL, &required_size);
+	err = nvs_get_blob(my_handle, "lightSensor", NULL, &required_size);
 	if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND) return err;
 
+	// Read previously saved blob if available
+	uint32_t* lightSensor = malloc(required_size + sizeof(uint32_t));
+	if (required_size > 0) {
+		err = nvs_get_blob(my_handle, "lightSensor", lightSensor, &required_size);
+		if (err != ESP_OK) return err;
+	}
 
-	// Write value including previously saved blob if available
-	required_size += sizeof(uint32_t);
-	err = nvs_set_blob(my_handle, "sample", &SensorValue, required_size);
-	if (err != ESP_OK) return err;
+    // Write value including previously saved blob if available
+    required_size += sizeof(uint32_t);
+    lightSensor[required_size / sizeof(uint32_t) - 1] = SensorValue;
+    err = nvs_set_blob(my_handle, "lightSensor", lightSensor, required_size);
+    free(lightSensor);
 
-	err = nvs_get_blob(my_handle, "sample", sense_val, &required_size);
-	if (err != ESP_OK) return err;
-	printf("%x", sense_val);
+    if (err != ESP_OK) return err;
 
-
-
-
-//	if (required_size > 0)
-//	{
-//		err = nvs_get_blob(my_handle, "sample", sense_val, &required_size);
-////		sense_val = err;
-//		if (err != ESP_OK) return err;
-//		for (int i = 0; i < required_size / sizeof(uint32_t); i++)
-//		{
-//            printf("%d: %d\n", i + 1, sense_val[i]);
-//        }
-//
-//	}
-
-//    // Read run time blob
-//    size_t required_size = 0;  // value will default to 0, if not set yet in NVS
-//    // obtain required memory space to store blob being read from NVS
-//    err = nvs_get_blob(my_handle, "run_time", NULL, &required_size);
-//    if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND) return err;
-//    printf("Run time:\n");
-//    if (required_size == 0) {
-//        printf("Nothing saved yet!\n");
-//    } else {
-//        uint32_t* run_time = malloc(required_size);
-//        err = nvs_get_blob(my_handle, "run_time", run_time, &required_size);
-//        if (err != ESP_OK) return err;
-//        for (int i = 0; i < required_size / sizeof(uint32_t); i++) {
-//            printf("%d: %d\n", i + 1, run_time[i]);
-//        }
-//        free(run_time);
-//    }
-
-//	// Write
-//	printf("Updating light intensity reading in NVS with = %d\n", SensorValue);
-//	err = nvs_set_i32(my_handle, "lightSensor", SensorValue);
-//	printf((err != ESP_OK) ? "Failed!\n" : "Done\n");
-//	// Commit written value.
-//	// After setting any values, nvs_commit() must be called to ensure changes are written
-//	// to flash storage. Implementations may write to storage at other times,
-//	// but this is not guaranteed.
-//	printf("Committing updates in NVS ... ");
-//	err = nvs_commit(my_handle);
-//	printf((err != ESP_OK) ? "Failed!\n" : "Done\n");
-
+    // Read run time blob
+	// obtain required memory space to store blob being read from NVS
+	err = nvs_get_blob(my_handle, "lightSensor", NULL, &required_size);
+	if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND) return err;
+	printf("lightSensor:\n");
+	if (required_size == 0) {
+		printf("Nothing saved yet!\n");
+	} else {
+		uint32_t* lightSensor1 = malloc(required_size);
+		err = nvs_get_blob(my_handle, "lightSensor", lightSensor1, &required_size);
+		if (err != ESP_OK) return err;
+		for (int i = 0; i < required_size / sizeof(uint32_t); i++) {
+			printf("%d: %d\n", i + 1, lightSensor1[i]);
+		}
+		free(lightSensor1);
+	}
 	// Close
 	nvs_close(my_handle);
 
