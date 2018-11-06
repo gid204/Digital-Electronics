@@ -21,7 +21,7 @@
 
 #define DATA_LENGTH                        512              /*!<Data buffer length for test buffer*/
 #define RW_TEST_LENGTH                     129              /*!<Data length for r/w test, any value from 0-DATA_LENGTH*/
-#define DELAY_TIME_BETWEEN_ITEMS_MS        1000             /*!< delay time between different test items */
+#define DELAY_TIME_BETWEEN_ITEMS_MS        10000             /*!< delay time between different test items */
 
 
 #define I2C_MASTER_SCL_IO 				   19               /*!< GPIO for I2C master clock */
@@ -146,7 +146,7 @@ esp_err_t save_sensor_value()
 	// obtain required memory space to store blob being read from NVS
 	err = nvs_get_blob(my_handle, "lightSensor", NULL, &required_size);
 	if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND) return err;
-	printf("lightSensor:\n");
+	printf("Light sensor readings saved in flash:\n");
 	if (required_size == 0) {
 		printf("Nothing saved yet!\n");
 	} else {
@@ -158,6 +158,7 @@ esp_err_t save_sensor_value()
 		}
 		free(lightSensor1);
 	}
+
 	// Close
 	nvs_close(my_handle);
 
@@ -179,20 +180,15 @@ static void i2c_task(void* arg)
     uint8_t sensor_data_h, sensor_data_l;
     int cnt = 0;
     while (1) {
-        printf("test cnt: %d\n", cnt++);
+        printf("Number of readings: %d\n", cnt++ +2);
         ret = i2c_master_sensor_test( I2C_EXAMPLE_MASTER_NUM, &sensor_data_h, &sensor_data_l);
         xSemaphoreTake(print_mux, portMAX_DELAY);
         if(ret == ESP_ERR_TIMEOUT) {
             printf("I2C timeout\n");
         } else if(ret == ESP_OK) {
-            printf("*******************\n");
-            printf("TASK[%d]  MASTER READ SENSOR( BH1750 )\n", task_idx);
-            printf("*******************\n");
-            printf("data_h: %02x\n", sensor_data_h);
-            printf("data_l: %02x\n", sensor_data_l);
             int32_t sensor_val = ((sensor_data_h << 8 | sensor_data_l) / 1.2);
             SensorValue = sensor_val;
-            printf("sensor val: %d\n", sensor_val);
+            printf("Latest sensor reading is: %d\n", sensor_val);
         } else {
             printf("%s: No ack, sensor not connected...skip...\n", esp_err_to_name(ret));
         }
